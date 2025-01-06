@@ -31,19 +31,38 @@ class Tests(unittest.TestCase):
         num_rows,
     )
   
-    def test_maze_create_cells_small(self):
-      win = Window(800, 600)
-      num_cols = 3
-      num_rows = 3
-      m1 = Maze(1, 1, num_rows, num_cols, 50, 50, win)
-      self.assertEqual(
-          len(m1._cells),
-          num_cols,
-      )
-      self.assertEqual(
-          len(m1._cells[0]),
-          num_rows,
+  def test_maze_create_cells_small(self):
+    win = Window(800, 600)
+    num_cols = 3
+    num_rows = 3
+    m1 = Maze(1, 1, num_rows, num_cols, 50, 50, win)
+    self.assertEqual(
+        len(m1._cells),
+        num_cols,
     )
+    self.assertEqual(
+        len(m1._cells[0]),
+        num_rows,
+  )
+
+  def test_break_entrance_and_exit(self):
+    win = Window(800, 600)
+    num_cols = 5
+    num_rows = 5
+    m1 = Maze(1, 1, num_rows, num_cols, 50, 50, win)
+    entrance_cell = m1._cells[0][0]
+    self.assertEqual(entrance_cell.has_top_wall, False)
+    exit_cell = m1._cells[m1.num_cols-1][m1.num_rows-1]
+    self.assertEqual(exit_cell.has_bottom_wall, False)
+
+  def test_maze_reset_cells_visited(self):
+    win = Window(800, 600)
+    num_cols = 5
+    num_rows = 5
+    m1 = Maze(1, 1, num_rows, num_cols, 50, 50, win)
+    for col in m1._cells:
+      for cell in col:
+        self.assertEqual(cell.visited, False)
 
 if __name__ == "__main__":
     unittest.main()
